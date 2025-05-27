@@ -1,0 +1,111 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #cccccc; /* Απλό, ανοιχτό γκρι */
+    font-family: Arial, sans-serif;
+}
+
+#game-container {
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+    padding: 20px;
+}
+
+#controls {
+    margin-bottom: 20px;
+}
+
+#board {
+    display: grid;
+    gap: 10px;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 10px;
+    max-width: 500px;
+}
+
+#board[data-size="8"],
+#board[data-size="12"],
+#board[data-size="16"] {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+#board[data-size="20"] {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.card {
+    width: 80px;
+    height: 120px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card.flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.card-front {
+    background: linear-gradient(145deg, #f6d365, #fda085);
+    color: #fff;
+}
+
+.card-back {
+    background-color: #ffffff;
+    color: #000;
+    transform: rotateY(180deg);
+}
+
+.card.matched .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card.matched .card-back {
+    background-color: #7cfc00;
+    color: #fff;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#timer {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
