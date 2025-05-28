@@ -1,6 +1,6 @@
-
 const board = document.getElementById('board');
 const timerElement = document.getElementById('timer');
+const scoreElement = document.getElementById('score');
 const restartBtn = document.getElementById('restartBtn');
 const cardCountSelect = document.getElementById('cardCount');
 const gameTypeSelect = document.getElementById('gameType');
@@ -14,6 +14,7 @@ let matchedCards = 0;
 let gameStarted = false;
 let startTime, timerInterval;
 let defaultColor = "#ccc";
+let score = 0;
 
 function createCard(cardValue, cardColor) {
     const card = document.createElement('div');
@@ -66,15 +67,15 @@ function checkForMatch() {
         firstCard.classList.add('matched');
         secondCard.classList.add('matched');
         matchedCards += 2;
+        score += 10;
+        scoreElement.innerText = `Σκορ: ${score}`;
         flippedCards = [];
 
         if (matchedCards === cards.length) {
             clearInterval(timerInterval);
             setTimeout(() => {
                 const timeTaken = Math.floor((Date.now() - startTime) / 1000);
-                const msgEl = document.getElementById("game-message");
-                msgEl.classList.remove("hidden");
-                msgEl.innerText = `🎉 Συγχαρητήρια! Κέρδισες! Χρόνος: ${timeTaken} δευτερόλεπτα.`;
+                alert(`Συγχαρητήρια! Κέρδισες! Χρόνος: ${timeTaken} δευτερόλεπτα. Σκορ: ${score}`);
                 disableCards();
             }, 500);
         }
@@ -82,6 +83,8 @@ function checkForMatch() {
         setTimeout(() => {
             firstCard.classList.remove('flipped');
             secondCard.classList.remove('flipped');
+            score = Math.max(0, score - 2);
+            scoreElement.innerText = `Σκορ: ${score}`;
             flippedCards = [];
         }, 1000);
     }
@@ -107,7 +110,9 @@ function initializeGame() {
     cards = shuffle([...selectedCharacters, ...selectedCharacters]);
     matchedCards = 0;
     flippedCards = [];
+    score = 0;
     board.innerHTML = '';
+    scoreElement.innerText = 'Σκορ: 0';
 
     if (timerInterval) {
         clearInterval(timerInterval);
@@ -123,7 +128,6 @@ function initializeGame() {
     board.setAttribute('data-size', selectedCardCount);
     gameStarted = false;
     timerElement.innerText = 'Χρόνος: 0';
-    document.getElementById("game-message").classList.add("hidden");
 }
 
 function startTimer() {
@@ -137,7 +141,7 @@ function startTimer() {
 function disableCards() {
     const allCards = document.querySelectorAll('.card');
     allCards.forEach(card => {
-        card.removeEventListener('click', () => flipCard(card));
+        card.replaceWith(card.cloneNode(true)); // Quick way to remove events
     });
 }
 
