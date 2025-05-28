@@ -5,6 +5,10 @@ const restartBtn = document.getElementById('restartBtn');
 const cardCountSelect = document.getElementById('cardCount');
 const gameTypeSelect = document.getElementById('gameType');
 
+const successSound = new Audio('success.mp3');
+const failSound = new Audio('fail.mp3');
+const winSound = new Audio('win.mp3');
+
 let letters = [...'ABCDEFGHIJKLMNOPQRST'];
 let numbers = [...Array(20).keys()].map(n => (n + 1).toString());
 let colors = ['#FF5733','#33FF57','#3357FF','#F033FF','#FF33A1','#33FFFF','#FFDB33','#FF5733','#A1FF33','#5733FF','#33FF84','#FF9333','#9F33FF','#FF33C7','#FFFF33','#33A1FF','#FF33F1','#F133FF','#F1FF33','#FF33B5'];
@@ -64,6 +68,9 @@ function checkForMatch() {
     const [firstCard, secondCard] = flippedCards;
 
     if (firstCard.dataset.value === secondCard.dataset.value) {
+        successSound.currentTime = 0;
+        successSound.play();
+
         firstCard.classList.add('matched');
         secondCard.classList.add('matched');
         matchedCards += 2;
@@ -74,6 +81,9 @@ function checkForMatch() {
         if (matchedCards === cards.length) {
             clearInterval(timerInterval);
             setTimeout(() => {
+                winSound.currentTime = 0;
+                winSound.play();
+
                 const timeTaken = Math.floor((Date.now() - startTime) / 1000);
                 alert(`Συγχαρητήρια! Κέρδισες! Χρόνος: ${timeTaken} δευτερόλεπτα. Σκορ: ${score}`);
                 disableCards();
@@ -81,6 +91,9 @@ function checkForMatch() {
         }
     } else {
         setTimeout(() => {
+            failSound.currentTime = 0;
+            failSound.play();
+
             firstCard.classList.remove('flipped');
             secondCard.classList.remove('flipped');
             score = Math.max(0, score - 2);
@@ -141,7 +154,7 @@ function startTimer() {
 function disableCards() {
     const allCards = document.querySelectorAll('.card');
     allCards.forEach(card => {
-        card.replaceWith(card.cloneNode(true)); // Quick way to remove events
+        card.replaceWith(card.cloneNode(true));
     });
 }
 
