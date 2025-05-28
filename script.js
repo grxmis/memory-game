@@ -6,9 +6,11 @@ const cardCountSelect = document.getElementById('cardCount'); // (πλέον δ�
 const gameTypeSelect = document.getElementById('gameType');
 const difficultySelect = document.getElementById('difficulty');
 
-const successSound = new Audio('success.mp3');
-const failSound = new Audio('fail.mp3');
+const successSound = new Audio('mutch2.mp3');
+const failSound = new Audio('wrong2.mp3');
 const winSound = new Audio('win.mp3');
+const flipSound = new Audio('flip2.mp3');
+flipSound.preload = 'auto';
 
 let letters = [...'ABCDEFGHIJKLMNOPQRST'];
 let numbers = [...Array(20).keys()].map(n => (n + 1).toString());
@@ -74,6 +76,9 @@ function flipCard(card) {
     }
 
     if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
+        flipSound.currentTime = 0;
+        flipSound.play().catch(() => {});
+
         card.classList.add('flipped');
         flippedCards.push(card);
         if (flippedCards.length === 2) {
@@ -103,7 +108,9 @@ function checkForMatch() {
                 winSound.play();
 
                 const timeTaken = Math.floor((Date.now() - startTime) / 1000);
-                alert(`Συγχαρητήρια! Κέρδισες! Χρόνος: ${timeTaken} δευτερόλεπτα. Σκορ: ${score}`);
+                const winMessage = document.getElementById('win-message');
+                winMessage.style.display = 'block';
+                winMessage.innerText = `🎉 Συγχαρητήρια! Χρόνος: ${timeTaken} δευτ. | Σκορ: ${score}`;
                 disableCards();
             }, 500);
         }
