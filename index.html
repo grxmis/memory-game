@@ -1,31 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Παιχνίδι Μνήμης</title>
-  <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Παιχνίδι Μνήμης</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="game-container">
-    <h1>Παιχνίδι Μνήμης</h1>
-    <div id="controls">
-      <select id="gameType">
-        <option value="letters">Γράμματα</option>
-        <option value="numbers">Αριθμοί</option>
-        <option value="colors">Χρώματα</option>
-      </select>
-      <select id="cardCount">
-        <option value="8">8 Κάρτες</option>
-        <option value="12">12 Κάρτες</option>
-        <option value="16">16 Κάρτες</option>
-      </select>
-      <button id="restartBtn">Ξεκίνα ξανά</button>
+    <div id="game-container">
+        <h1>Παιχνίδι Μνήμης</h1>
+        <div id="controls">
+            <select id="gameType">
+                <option value="letters">Γράμματα</option>
+                <option value="numbers">Αριθμοί</option>
+                <option value="colors">Χρώματα</option>
+            </select>
+            <select id="cardCount">
+                <option value="8">8 Κάρτες</option>
+                <option value="12">12 Κάρτες</option>
+                <option value="16">16 Κάρτες</option>
+            </select>
+            <button id="restartBtn">Ξεκίνα ξανά</button>
+        </div>
+        <div id="board"></div>
+        <div id="timer">Χρόνος: 0</div>
     </div>
-    <div id="board" data-size="8"></div>
-    <div id="timer">Χρόνος: 0</div>
-  </div>
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

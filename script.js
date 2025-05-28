@@ -5,15 +5,15 @@ const restartBtn = document.getElementById('restartBtn');
 const cardCountSelect = document.getElementById('cardCount');
 const gameTypeSelect = document.getElementById('gameType');
 
-let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').slice(0, 20);
-let numbers = Array.from({length: 20}, (_, i) => (i + 1).toString());
-let colors = ['#FF5733', '#33FF57', '#3357FF', '#F033FF', '#FF33A1', '#33FFFF', '#FFDB33', '#FF5733', '#A1FF33', '#5733FF', '#33FF84', '#FF9333', '#9F33FF', '#FF33C7', '#FFFF33', '#33A1FF', '#FF33F1', '#F133FF', '#F1FF33', '#FF33B5'];
-
+let letters = [...'ABCDEFGHIJKLMNOPQRST'];
+let numbers = [...Array(20).keys()].map(n => (n + 1).toString());
+let colors = ['#FF5733','#33FF57','#3357FF','#F033FF','#FF33A1','#33FFFF','#FFDB33','#FF5733','#A1FF33','#5733FF','#33FF84','#FF9333','#9F33FF','#FF33C7','#FFFF33','#33A1FF','#FF33F1','#F133FF','#F1FF33','#FF33B5'];
 let cards = [];
 let flippedCards = [];
 let matchedCards = 0;
 let gameStarted = false;
 let startTime, timerInterval;
+let defaultColor = "#ccc";
 
 function createCard(cardValue, cardColor) {
     const card = document.createElement('div');
@@ -26,15 +26,13 @@ function createCard(cardValue, cardColor) {
 
     const cardFront = document.createElement('div');
     cardFront.classList.add('card-front');
-
     const cardBack = document.createElement('div');
     cardBack.classList.add('card-back');
 
     if (gameTypeSelect.value === 'colors') {
         cardBack.style.backgroundColor = cardColor;
-        cardBack.textContent = '';
     } else {
-        cardBack.textContent = cardValue;
+        cardBack.innerText = cardValue;
     }
 
     cardInner.appendChild(cardFront);
@@ -55,7 +53,6 @@ function flipCard(card) {
     if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
         card.classList.add('flipped');
         flippedCards.push(card);
-
         if (flippedCards.length === 2) {
             checkForMatch();
         }
@@ -76,6 +73,7 @@ function checkForMatch() {
             setTimeout(() => {
                 const timeTaken = Math.floor((Date.now() - startTime) / 1000);
                 alert(`Συγχαρητήρια! Κέρδισες! Χρόνος: ${timeTaken} δευτερόλεπτα.`);
+                disableCards();
             }, 500);
         }
     } else {
@@ -93,34 +91,34 @@ function shuffle(array) {
 
 function initializeGame() {
     const selectedCardCount = parseInt(cardCountSelect.value);
-    const cardPairsCount = selectedCardCount / 2;
     const gameType = gameTypeSelect.value;
 
     let selectedCharacters = [];
-
     if (gameType === 'letters') {
-        selectedCharacters = letters.slice(0, cardPairsCount);
+        selectedCharacters = letters.slice(0, selectedCardCount / 2);
     } else if (gameType === 'numbers') {
-        selectedCharacters = numbers.slice(0, cardPairsCount);
+        selectedCharacters = numbers.slice(0, selectedCardCount / 2);
     } else if (gameType === 'colors') {
-        selectedCharacters = colors.slice(0, cardPairsCount);
+        selectedCharacters = colors.slice(0, selectedCardCount / 2);
     }
 
-    const shuffled = shuffle(selectedCharacters.concat(selectedCharacters));
-    cards = shuffle(shuffled);
-
+    cards = shuffle([...selectedCharacters, ...selectedCharacters]);
     matchedCards = 0;
     flippedCards = [];
     board.innerHTML = '';
-    board.setAttribute('data-size', selectedCardCount);
 
-    cards.forEach(val => {
-        const color = gameType === 'colors' ? val : "#ccc";
-        const card = createCard(val, color);
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    cards.forEach(cardValue => {
+        const cardColor = gameType === 'colors' ? cardValue : defaultColor;
+        const card = createCard(cardValue, cardColor);
         board.appendChild(card);
     });
 
-    if (gameStarted) clearInterval(timerInterval);
+    board.setAttribute('data-size', selectedCardCount);
     gameStarted = false;
     timerElement.innerText = 'Χρόνος: 0';
 }
@@ -133,8 +131,14 @@ function startTimer() {
     }, 1000);
 }
 
+function disableCards() {
+    const allCards = document.querySelectorAll('.card');
+    allCards.forEach(card => {
+        card.removeEventListener('click', () => flipCard(card));
+    });
+}
+
 restartBtn.addEventListener('click', () => {
-    gameStarted = false;
     initializeGame();
 });
 

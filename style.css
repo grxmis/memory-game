@@ -2,7 +2,6 @@
 * {
     box-sizing: border-box;
 }
-
 body {
     display: flex;
     justify-content: center;
@@ -12,14 +11,12 @@ body {
     background-color: #cccccc;
     font-family: Arial, sans-serif;
 }
-
 #game-container {
     text-align: center;
     max-width: 600px;
     width: 100%;
     padding: 20px;
 }
-
 #controls {
     margin-bottom: 20px;
     display: flex;
@@ -27,7 +24,6 @@ body {
     justify-content: center;
     gap: 10px;
 }
-
 #controls select,
 #controls button {
     font-size: 16px;
@@ -36,7 +32,6 @@ body {
     border: 1px solid #888;
     cursor: pointer;
 }
-
 #board {
     display: grid;
     gap: 10px;
@@ -45,24 +40,17 @@ body {
     padding: 10px;
     max-width: 500px;
 }
-
 #board[data-size="8"],
 #board[data-size="12"],
 #board[data-size="16"] {
     grid-template-columns: repeat(4, 1fr);
 }
-
-/* #board[data-size="20"] {
-    grid-template-columns: repeat(5, 1fr);
-} */
-
 .card {
-    width: 80px;
+    width: 100px;
     height: 120px;
     perspective: 1000px;
     cursor: pointer;
 }
-
 .card-inner {
     width: 100%;
     height: 100%;
@@ -70,11 +58,9 @@ body {
     transition: transform 0.6s;
     transform-style: preserve-3d;
 }
-
 .card.flipped .card-inner {
     transform: rotateY(180deg);
 }
-
 .card-front,
 .card-back {
     position: absolute;
@@ -89,84 +75,24 @@ body {
     font-weight: bold;
     text-align: center;
 }
-
 .card-front {
     background: linear-gradient(145deg, #f6d365, #fda085);
     color: #fff;
 }
-
 .card-back {
     background-color: #ffffff;
     color: #000;
     transform: rotateY(180deg);
 }
-
 .card.matched .card-inner {
     transform: rotateY(180deg);
 }
-
 .card.matched .card-back {
     background-color: #7cfc00;
     color: #fff;
 }
-
-button {
-    font-size: 16px;
-    padding: 10px 20px;
-    margin-left: 10px;
-    cursor: pointer;
-}
-
 #timer {
     margin-top: 20px;
     font-size: 18px;
     font-weight: bold;
-}
-
-/* ----------- Responsive για κινητά ----------- */
-@media (max-width: 600px) {
-    #game-container {
-        padding: 10px;
-    }
-
-    #controls {
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-    }
-
-    #controls select,
-    #controls button {
-        width: 90%;
-        font-size: 16px;
-        padding: 10px;
-    }
-
-    #board {
-        max-width: 100%;
-        padding: 5px;
-        gap: 6px;
-    }
-
-    .card {
-        width: 60px;
-        height: 90px;
-    }
-
-    .card-front,
-    .card-back {
-        font-size: 24px;
-    }
-}
-
-@media (max-width: 400px) {
-    .card {
-        width: 50px;
-        height: 80px;
-    }
-
-    .card-front,
-    .card-back {
-        font-size: 20px;
-    }
 }
