@@ -1,36 +1,43 @@
+
 <!DOCTYPE html>
 <html lang="el">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Παιχνίδι Μνήμης</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Παιχνίδι Μνήμης</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-container">
-        <h1>Παιχνίδι Μνήμης</h1>
-        <div id="controls">
-            <select id="gameType">
-                <option value="letters">Γράμματα</option>
-                <option value="numbers">Αριθμοί</option>
-                <option value="colors">Χρώματα</option>
-                <option value="images">Εικόνες</option>
-            </select>
-            <select id="difficulty">
-                <option value="easy">Εύκολο</option>
-                <option value="medium">Μεσαίο</option>
-                <option value="hard">Δύσκολο</option>
-            </select>
-            <button id="restartBtn">Ξεκίνα ξανά</button>
-        </div>
-        <div id="board"></div>
-        <div id="timer">Χρόνος: 0</div>
-        <div id="score">Σκορ: 0</div>
-        <div id="win-message" class="hidden"></div>
+  <div id="game-container">
+    <h1>Παιχνίδι Μνήμης</h1>
+    <div id="controls">
+      <select id="languageSelect">
+        <option value="el">🇬🇷 Ελληνικά</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="de">🇩🇪 Deutsch</option>
+      </select>
+      <select id="gameType">
+        <option value="letters">Γράμματα</option>
+        <option value="numbers">Αριθμοί</option>
+        <option value="colors">Χρώματα</option>
+        <option value="images">Εικόνες</option>
+      </select>
+      <select id="difficulty">
+        <option value="easy">Εύκολο</option>
+        <option value="medium">Μεσαίο</option>
+        <option value="hard">Δύσκολο</option>
+      </select>
+      <button id="restartBtn">Ξεκίνα ξανά</button>
     </div>
-    <script src="script.js"></script>
-    <footer id="credits">
-        Σχεδιάστηκε απο Charis Myserlis (C)2025
+    <div id="board"></div>
+    <div id="timer">Χρόνος: 0</div>
+    <div id="score">Σκορ: 0</div>
+    <div id="win-message" style="display:none;"></div>
+  </div>
+  <script src="script.js"></script>
+      <footer id="credits">
+        Designed by Charis Myserlis (C)2025
     </footer>
+
 </body>
 </html>

@@ -1,3 +1,73 @@
+
+const translations = {
+  el: {
+    title: "Παιχνίδι Μνήμης",
+    restart: "Ξεκίνα ξανά",
+    time: "Χρόνος",
+    score: "Σκορ",
+    win: "🎉 Συγχαρητήρια! Χρόνος: {time} δευτ. | Σκορ: {score}",
+    letters: "Γράμματα",
+    numbers: "Αριθμοί",
+    colors: "Χρώματα",
+    images: "Εικόνες",
+    easy: "Εύκολο",
+    medium: "Μεσαίο",
+    hard: "Δύσκολο"
+  },
+  en: {
+    title: "Memory Game",
+    restart: "Restart",
+    time: "Time",
+    score: "Score",
+    win: "🎉 Congratulations! Time: {time} sec | Score: {score}",
+    letters: "Letters",
+    numbers: "Numbers",
+    colors: "Colors",
+    images: "Images",
+    easy: "Easy",
+    medium: "Medium",
+    hard: "Hard"
+  },
+  de: {
+    title: "Gedächtnisspiel",
+    restart: "Neu starten",
+    time: "Zeit",
+    score: "Punkte",
+    win: "🎉 Glückwunsch! Zeit: {time} Sek. | Punkte: {score}",
+    letters: "Buchstaben",
+    numbers: "Zahlen",
+    colors: "Farben",
+    images: "Bilder",
+    easy: "Einfach",
+    medium: "Mittel",
+    hard: "Schwer"
+  }
+};
+
+let currentLang = "el";
+
+function setLanguage(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+  document.querySelector("h1").innerText = t.title;
+  restartBtn.innerText = t.restart;
+  timerElement.innerText = `${t.time}: 0`;
+  scoreElement.innerText = `${t.score}: 0`;
+  document.querySelector("#gameType option[value='letters']").innerText = t.letters;
+  document.querySelector("#gameType option[value='numbers']").innerText = t.numbers;
+  document.querySelector("#gameType option[value='colors']").innerText = t.colors;
+  document.querySelector("#gameType option[value='images']").innerText = t.images;
+  document.querySelector("#difficulty option[value='easy']").innerText = t.easy;
+  document.querySelector("#difficulty option[value='medium']").innerText = t.medium;
+  document.querySelector("#difficulty option[value='hard']").innerText = t.hard;
+}
+
+document.getElementById('languageSelect').addEventListener('change', (e) => {
+  setLanguage(e.target.value);
+  initializeGame();
+});
+
+
 const board = document.getElementById('board');
 const timerElement = document.getElementById('timer');
 const scoreElement = document.getElementById('score');
@@ -98,7 +168,7 @@ function checkForMatch() {
         secondCard.classList.add('matched');
         matchedCards += 2;
         score += 10;
-        scoreElement.innerText = `Σκορ: ${score}`;
+        scoreElement.innerText = `${translations[currentLang].score}: ${score}`;
         flippedCards = [];
 
         if (matchedCards === cards.length) {
@@ -110,7 +180,7 @@ function checkForMatch() {
                 const timeTaken = Math.floor((Date.now() - startTime) / 1000);
                 const winMessage = document.getElementById('win-message');
                 winMessage.style.display = 'block';
-                winMessage.innerText = `🎉 Συγχαρητήρια! Χρόνος: ${timeTaken} δευτ. | Σκορ: ${score}`;
+                winMessage.innerText = translations[currentLang].win.replace('{time}', timeTaken).replace('{score}', score);
                 disableCards();
             }, 500);
         }
@@ -122,7 +192,7 @@ function checkForMatch() {
             firstCard.classList.remove('flipped');
             secondCard.classList.remove('flipped');
             score = Math.max(0, score - 2);
-            scoreElement.innerText = `Σκορ: ${score}`;
+            scoreElement.innerText = `${translations[currentLang].score}: ${score}`;
             flippedCards = [];
         }, 1000);
     }
@@ -155,7 +225,7 @@ function initializeGame() {
     flippedCards = [];
     score = 0;
     board.innerHTML = '';
-    scoreElement.innerText = 'Σκορ: 0';
+    scoreElement.innerText = `${translations[currentLang].score}: 0`;
 
     if (timerInterval) {
         clearInterval(timerInterval);
@@ -170,14 +240,14 @@ function initializeGame() {
 
     board.setAttribute('data-size', cardCount);
     gameStarted = false;
-    timerElement.innerText = 'Χρόνος: 0';
+    timerElement.innerText = `${translations[currentLang].time}: 0`;
 }
 
 function startTimer() {
     startTime = Date.now();
     timerInterval = setInterval(() => {
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
-        timerElement.innerText = `Χρόνος: ${elapsed}`;
+        timerElement.innerText = `${translations[currentLang].time}: ${elapsed}`;
     }, 1000);
 }
 
