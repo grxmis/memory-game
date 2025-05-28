@@ -104,3 +104,20 @@ body {
         height: 100px;
     }
 }
+
+#credits {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #eeeeee;
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+    opacity: 0.8;
+    z-index: 1000;
+}
+#game-container {
+    padding-bottom: 60px; /* για να μην κρύβεται από το footer */
+}
