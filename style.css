@@ -9,7 +9,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: #cccccc; /* Απλό, ανοιχτό γκρι */
+    background-color: #cccccc;
     font-family: Arial, sans-serif;
 }
 
@@ -22,6 +22,19 @@ body {
 
 #controls {
     margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+#controls select,
+#controls button {
+    font-size: 16px;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: 1px solid #888;
+    cursor: pointer;
 }
 
 #board {
@@ -39,9 +52,9 @@ body {
     grid-template-columns: repeat(4, 1fr);
 }
 
-#board[data-size="20"] {
+/* #board[data-size="20"] {
     grid-template-columns: repeat(5, 1fr);
-}
+} */
 
 .card {
     width: 80px;
@@ -98,8 +111,8 @@ body {
 }
 
 button {
-    padding: 10px 20px;
     font-size: 16px;
+    padding: 10px 20px;
     margin-left: 10px;
     cursor: pointer;
 }
@@ -108,4 +121,52 @@ button {
     margin-top: 20px;
     font-size: 18px;
     font-weight: bold;
+}
+
+/* ----------- Responsive για κινητά ----------- */
+@media (max-width: 600px) {
+    #game-container {
+        padding: 10px;
+    }
+
+    #controls {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    #controls select,
+    #controls button {
+        width: 90%;
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    #board {
+        max-width: 100%;
+        padding: 5px;
+        gap: 6px;
+    }
+
+    .card {
+        width: 60px;
+        height: 90px;
+    }
+
+    .card-front,
+    .card-back {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 400px) {
+    .card {
+        width: 50px;
+        height: 80px;
+    }
+
+    .card-front,
+    .card-back {
+        font-size: 20px;
+    }
 }
