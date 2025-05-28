@@ -2,8 +2,9 @@ const board = document.getElementById('board');
 const timerElement = document.getElementById('timer');
 const scoreElement = document.getElementById('score');
 const restartBtn = document.getElementById('restartBtn');
-const cardCountSelect = document.getElementById('cardCount');
+const cardCountSelect = document.getElementById('cardCount'); // (πλέον δεν χρησιμοποιείται)
 const gameTypeSelect = document.getElementById('gameType');
+const difficultySelect = document.getElementById('difficulty');
 
 const successSound = new Audio('success.mp3');
 const failSound = new Audio('fail.mp3');
@@ -12,6 +13,8 @@ const winSound = new Audio('win.mp3');
 let letters = [...'ABCDEFGHIJKLMNOPQRST'];
 let numbers = [...Array(20).keys()].map(n => (n + 1).toString());
 let colors = ['#FF5733','#33FF57','#3357FF','#F033FF','#FF33A1','#33FFFF','#FFDB33','#FF5733','#A1FF33','#5733FF','#33FF84','#FF9333','#9F33FF','#FF33C7','#FFFF33','#33A1FF','#FF33F1','#F133FF','#F1FF33','#FF33B5'];
+let images = ['images/fr1.png', 'images/fr2.png', 'images/fr3.png', 'images/fr4.png', 'images/fr5.png', 'images/fr6.png', 'images/fr7.png', 'images/fr8.png', 'images/fr9.png', 'images/fr10.png','images/fr11.png','images/fr12.png'];
+
 let cards = [];
 let flippedCards = [];
 let matchedCards = 0;
@@ -20,7 +23,15 @@ let startTime, timerInterval;
 let defaultColor = "#ccc";
 let score = 0;
 
-function createCard(cardValue, cardColor) {
+function getCardCountByDifficulty() {
+    const difficulty = difficultySelect.value;
+    if (difficulty === 'easy') return 8;
+    if (difficulty === 'medium') return 12;
+    if (difficulty === 'hard') return 16;
+    return 8;
+}
+
+function createCard(cardValue, cardColor, isImage = false) {
     const card = document.createElement('div');
     card.classList.add('card');
     card.dataset.value = cardValue;
@@ -34,7 +45,14 @@ function createCard(cardValue, cardColor) {
     const cardBack = document.createElement('div');
     cardBack.classList.add('card-back');
 
-    if (gameTypeSelect.value === 'colors') {
+    if (isImage) {
+        const img = document.createElement('img');
+        img.src = cardValue;
+        img.alt = "";
+        img.style.maxWidth = "80%";
+        img.style.maxHeight = "80%";
+        cardBack.appendChild(img);
+    } else if (gameTypeSelect.value === 'colors') {
         cardBack.style.backgroundColor = cardColor;
     } else {
         cardBack.innerText = cardValue;
@@ -108,19 +126,24 @@ function shuffle(array) {
 }
 
 function initializeGame() {
-    const selectedCardCount = parseInt(cardCountSelect.value);
+    const cardCount = getCardCountByDifficulty();
     const gameType = gameTypeSelect.value;
 
-    let selectedCharacters = [];
+    let selectedItems = [];
+    let isImageType = false;
+
     if (gameType === 'letters') {
-        selectedCharacters = letters.slice(0, selectedCardCount / 2);
+        selectedItems = letters.slice(0, cardCount / 2);
     } else if (gameType === 'numbers') {
-        selectedCharacters = numbers.slice(0, selectedCardCount / 2);
+        selectedItems = numbers.slice(0, cardCount / 2);
     } else if (gameType === 'colors') {
-        selectedCharacters = colors.slice(0, selectedCardCount / 2);
+        selectedItems = colors.slice(0, cardCount / 2);
+    } else if (gameType === 'images') {
+        selectedItems = images.slice(0, cardCount / 2);
+        isImageType = true;
     }
 
-    cards = shuffle([...selectedCharacters, ...selectedCharacters]);
+    cards = shuffle([...selectedItems, ...selectedItems]);
     matchedCards = 0;
     flippedCards = [];
     score = 0;
@@ -134,11 +157,11 @@ function initializeGame() {
 
     cards.forEach(cardValue => {
         const cardColor = gameType === 'colors' ? cardValue : defaultColor;
-        const card = createCard(cardValue, cardColor);
+        const card = createCard(cardValue, cardColor, isImageType);
         board.appendChild(card);
     });
 
-    board.setAttribute('data-size', selectedCardCount);
+    board.setAttribute('data-size', cardCount);
     gameStarted = false;
     timerElement.innerText = 'Χρόνος: 0';
 }
@@ -158,11 +181,8 @@ function disableCards() {
     });
 }
 
-restartBtn.addEventListener('click', () => {
-    initializeGame();
-});
-
-cardCountSelect.addEventListener('change', initializeGame);
+restartBtn.addEventListener('click', initializeGame);
 gameTypeSelect.addEventListener('change', initializeGame);
+difficultySelect.addEventListener('change', initializeGame);
 
 initializeGame();

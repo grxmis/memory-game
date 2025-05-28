@@ -76,15 +76,19 @@ body {
     font-size: 32px;
     font-weight: bold;
     text-align: center;
+    background-color: #ffffff;
 }
 .card-front {
     background: linear-gradient(145deg, #f6d365, #fda085);
     color: #fff;
 }
 .card-back {
-    background-color: #ffffff;
     color: #000;
     transform: rotateY(180deg);
+}
+.card-back img {
+    max-width: 80%;
+    max-height: 80%;
 }
 .card.matched .card-inner {
     transform: rotateY(180deg);
