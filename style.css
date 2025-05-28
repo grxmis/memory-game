@@ -5,11 +5,13 @@
 body {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     min-height: 100vh;
     margin: 0;
+    padding: 20px;
     background-color: #cccccc;
     font-family: Arial, sans-serif;
+    overflow-x: hidden;
 }
 #game-container {
     text-align: center;
@@ -36,9 +38,9 @@ body {
     display: grid;
     gap: 10px;
     justify-content: center;
-    margin: 0 auto;
     padding: 10px;
-    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
 }
 #board[data-size="8"],
 #board[data-size="12"],
@@ -95,4 +97,10 @@ body {
     margin-top: 20px;
     font-size: 18px;
     font-weight: bold;
+}
+@media (max-width: 480px) {
+    .card {
+        width: 70px;
+        height: 100px;
+    }
 }
