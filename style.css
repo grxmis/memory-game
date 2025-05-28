@@ -18,6 +18,7 @@ body {
     max-width: 600px;
     width: 100%;
     padding: 20px;
+    padding-bottom: 60px;
 }
 #controls {
     margin-bottom: 20px;
@@ -98,13 +99,15 @@ body {
     font-size: 18px;
     font-weight: bold;
 }
-@media (max-width: 480px) {
-    .card {
-        width: 70px;
-        height: 100px;
-    }
+#game-message {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #007700;
 }
-
+.hidden {
+    display: none;
+}
 #credits {
     position: fixed;
     bottom: 0;
@@ -118,6 +121,27 @@ body {
     opacity: 0.8;
     z-index: 1000;
 }
-#game-container {
-    padding-bottom: 60px; /* για να μην κρύβεται από το footer */
+@media (max-width: 600px) {
+    body {
+        background-color: #222;
+    }
+
+    #game-container {
+        background-color: #333;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    #credits {
+        background-color: #111;
+        color: #bbb;
+    }
+
+    #timer {
+        color: #fff;
+    }
+
+    #game-message {
+        color: #00ff88;
+    }
 }

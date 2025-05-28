@@ -72,7 +72,9 @@ function checkForMatch() {
             clearInterval(timerInterval);
             setTimeout(() => {
                 const timeTaken = Math.floor((Date.now() - startTime) / 1000);
-                alert(`Συγχαρητήρια! Κέρδισες! Χρόνος: ${timeTaken} δευτερόλεπτα.`);
+                const msgEl = document.getElementById("game-message");
+                msgEl.classList.remove("hidden");
+                msgEl.innerText = `🎉 Συγχαρητήρια! Κέρδισες! Χρόνος: ${timeTaken} δευτερόλεπτα.`;
                 disableCards();
             }, 500);
         }
@@ -121,6 +123,7 @@ function initializeGame() {
     board.setAttribute('data-size', selectedCardCount);
     gameStarted = false;
     timerElement.innerText = 'Χρόνος: 0';
+    document.getElementById("game-message").classList.add("hidden");
 }
 
 function startTimer() {
