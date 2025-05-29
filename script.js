@@ -238,16 +238,16 @@ function initializeGame() {
     let selectedItems = [];
     let isImageType = false;
 
-    if (gameType === 'letters') {
-        selectedItems = letters.slice(0, cardCount / 2);
-    } else if (gameType === 'numbers') {
-        selectedItems = numbers.slice(0, cardCount / 2);
-    } else if (gameType === 'colors') {
-        selectedItems = colors.slice(0, cardCount / 2);
-    } else if (gameType === 'images') {
-        selectedItems = images.slice(0, cardCount / 2);
-        isImageType = true;
-    }
+	if (gameType === 'letters') {
+    selectedItems = shuffle([...letters]).slice(0, cardCount / 2);
+	} else if (gameType === 'numbers') {
+    selectedItems = shuffle([...numbers]).slice(0, cardCount / 2);
+	} else if (gameType === 'colors') {
+    selectedItems = shuffle([...colors]).slice(0, cardCount / 2);
+	} else if (gameType === 'images') {
+    selectedItems = shuffle([...images]).slice(0, cardCount / 2);
+    isImageType = true;
+	}
 
     cards = shuffle([...selectedItems, ...selectedItems]);
     matchedCards = 0;
