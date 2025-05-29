@@ -8,8 +8,9 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 20px;
-    background: linear-gradient(to bottom right, #ffffff, #f0f0f0);
-    font-family: Arial, sans-serif;
+    /*background: linear-gradient(to bottom right, #ffffff, #f0f0f0);*/
+	background: linear-gradient(to bottom right, #a8e6cf, #056674); /* Πράσινο gradient */   
+   font-family: Arial, sans-serif;
     overflow-x: hidden;
 }
 #game-container {
