@@ -203,7 +203,8 @@ function shuffle(array) {
 }
 
 function initializeGame() {
-    const cardCount = getCardCountByDifficulty();
+    document.getElementById('win-message').style.display = 'none';
+	const cardCount = getCardCountByDifficulty();
     const gameType = gameTypeSelect.value;
 
     let selectedItems = [];
