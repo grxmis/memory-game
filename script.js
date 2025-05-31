@@ -220,6 +220,7 @@ function checkForMatch() {
 				const winMessage = document.getElementById('win-message');
                 winMessage.style.display = 'block';
                 winMessage.innerText = translations[currentLang].win.replace('{time}', timeTaken).replace('{score}', score);
+				launchFireworks();
                 disableCards();
             }, 500);
         }
@@ -296,6 +297,48 @@ function disableCards() {
     allCards.forEach(card => {
         card.replaceWith(card.cloneNode(true));
     });
+}
+function launchFireworks() {
+  const canvas = document.getElementById('fireworksCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const particles = [];
+  const colors = ['#ff3', '#f06', '#0cf', '#f90', '#fff'];
+
+  for (let i = 0; i < 100; i++) {
+    particles.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      radius: Math.random() * 3 + 2,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      dx: (Math.random() - 0.5) * 8,
+      dy: (Math.random() - 0.5) * 8,
+      life: 100
+    });
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.x += p.dx;
+      p.y += p.dy;
+      p.life--;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+    });
+    particles.filter(p => p.life > 0);
+    if (particles.some(p => p.life > 0)) {
+      requestAnimationFrame(animate);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  animate();
 }
 
 restartBtn.addEventListener('click', initializeGame);
