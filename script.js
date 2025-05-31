@@ -108,6 +108,15 @@ const successSound = new Audio('mutch2.mp3');
 const failSound = new Audio('wrong2.mp3');
 const winSound = new Audio('win.mp3');
 const flipSound = new Audio('flip2.mp3');
+
+let soundEnabled = true;
+const soundToggle = document.getElementById("soundToggle");
+soundToggle.addEventListener("click", () => {
+  soundEnabled = !soundEnabled;
+  soundToggle.textContent = soundEnabled ? "🔊" : "🔇";
+  soundToggle.title = soundEnabled ? "Ήχος ενεργός" : "Ήχος απενεργοποιημένος";
+});
+
 flipSound.preload = 'auto';
 
 let letters = [...'ABCDEFGHIJKLMNOPQRSTWYZ'];
@@ -175,7 +184,7 @@ function flipCard(card) {
 
     if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
         flipSound.currentTime = 0;
-        flipSound.play().catch(() => {});
+        if (soundEnabled) flipSound.play().catch(() => {});
 
         card.classList.add('flipped');
         flippedCards.push(card);
@@ -190,7 +199,7 @@ function checkForMatch() {
 
     if (firstCard.dataset.value === secondCard.dataset.value) {
         successSound.currentTime = 0;
-        successSound.play();
+        if (soundEnabled) successSound.play();
 
         firstCard.classList.add('matched');
         secondCard.classList.add('matched');
@@ -203,10 +212,12 @@ function checkForMatch() {
             clearInterval(timerInterval);
             setTimeout(() => {
                 winSound.currentTime = 0;
-                winSound.play();
+                if (soundEnabled) winSound.play();
 
-                const timeTaken = Math.floor((Date.now() - startTime) / 1000);
-                const winMessage = document.getElementById('win-message');
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+				timerElement.innerText = `${translations[currentLang].time}: ${elapsed}`;
+				const timeTaken = elapsed;
+				const winMessage = document.getElementById('win-message');
                 winMessage.style.display = 'block';
                 winMessage.innerText = translations[currentLang].win.replace('{time}', timeTaken).replace('{score}', score);
                 disableCards();
@@ -215,7 +226,7 @@ function checkForMatch() {
     } else {
         setTimeout(() => {
             failSound.currentTime = 0;
-            failSound.play();
+            if (soundEnabled) failSound.play();
 
             firstCard.classList.remove('flipped');
             secondCard.classList.remove('flipped');
