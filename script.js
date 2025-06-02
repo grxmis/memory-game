@@ -124,6 +124,7 @@ let numbers = [...Array(20).keys()].map(n => (n + 1).toString());
 let colors = ['#FF5733','#33FF57','#3357FF','#F033FF','#FF33A1','#33FFFF','#FFDB33','#FF5733','#A1FF33','#5733FF','#33FF84','#FF9333','#9F33FF','#FF33C7','#FFFF33','#33A1FF','#FF33F1','#F133FF','#F1FF33','#FF33B5'];
 let images = ['images/fr1.png', 'images/fr2.png', 'images/fr3.png', 'images/fr4.png', 'images/fr5.png', 'images/fr6.png', 'images/fr7.png', 'images/fr8.png', 'images/fr9.png', 'images/fr10.png','images/fr11.png','images/fr12.png'];
 let animals = ['animals/animals1.png','animals/animals2.png','animals/animals3.png','animals/animals4.png','animals/animals5.png','animals/animals6.png','animals/animals7.png','animals/animals8.png','animals/animals9.png','animals/animals10.png','animals/animals11.png','animals/animals12.png','animals/animals13.png','animals/animals14.png'];
+let notes = ["sounds/s1.mp3","sounds/s2.mp3","sounds/s3.mp3","sounds/s4.mp3","sounds/s5.mp3","sounds/s6.mp3","sounds/s7.mp3","sounds/s8.mp3","sounds/s9.mp3","sounds/s10.mp3"];
 
 let cards = [];
 let flippedCards = [];
@@ -155,26 +156,36 @@ function createCard(cardValue, cardColor, isImage = false) {
     const cardBack = document.createElement('div');
     cardBack.classList.add('card-back');
 
-    if (isImage) {
-        const img = document.createElement('img');
-        img.src = cardValue;
-        img.alt = "";
-        img.style.maxWidth = "80%";
-        img.style.maxHeight = "80%";
-        cardBack.appendChild(img);
-    } else if (gameTypeSelect.value === 'colors') {
-        cardBack.style.backgroundColor = cardColor;
-    } else {
-        cardBack.innerText = cardValue;
+   if (isImage) {
+    const img = document.createElement('img');
+    img.src = cardValue;
+    img.alt = "";
+    img.style.maxWidth = "80%";
+    img.style.maxHeight = "80%";
+    cardBack.appendChild(img);
+	} else if (gameTypeSelect.value === 'colors') {
+    cardBack.style.backgroundColor = cardColor;
+	} else if (gameTypeSelect.value === 'notes') {
+    cardBack.innerText = "♪"; // Μπορείς να βάλεις και 🎵
+	} else {
+    cardBack.innerText = cardValue;
+	}
+
+	cardInner.appendChild(cardFront);
+	cardInner.appendChild(cardBack);
+	card.appendChild(cardInner);
+
+// ✅ Προσθήκη ήχου αν είναι θεματολογία notes
+	card.addEventListener('click', () => {
+    if (gameTypeSelect.value === 'notes') {
+        const audio = new Audio(card.dataset.value);
+        audio.play();
     }
+    flipCard(card);
+	});
 
-    cardInner.appendChild(cardFront);
-    cardInner.appendChild(cardBack);
-    card.appendChild(cardInner);
+return card;
 
-    card.addEventListener('click', () => flipCard(card));
-
-    return card;
 }
 
 function flipCard(card) {
@@ -185,10 +196,17 @@ function flipCard(card) {
 
     if (flippedCards.length < 2 && !card.classList.contains('flipped') && !card.classList.contains('matched')) {
         flipSound.currentTime = 0;
-        if (soundEnabled) flipSound.play().catch(() => {});
-
+        //if (soundEnabled) flipSound.play().catch(() => {});
+		if (soundEnabled && gameTypeSelect.value !== 'notes') flipSound.play()
         card.classList.add('flipped');
         flippedCards.push(card);
+
+        // ✅ Αναπαραγωγή ήχου για θεματολογία "Νότες"
+        if (gameTypeSelect.value === 'notes') {
+            const audio = new Audio(card.dataset.value);
+            audio.play();
+        }
+
         if (flippedCards.length === 2) {
             checkForMatch();
         }
@@ -200,8 +218,8 @@ function checkForMatch() {
 
     if (firstCard.dataset.value === secondCard.dataset.value) {
         successSound.currentTime = 0;
-        if (soundEnabled) successSound.play();
-
+        //if (soundEnabled) successSound.play();
+		if (soundEnabled && gameTypeSelect.value !== 'notes') successSound.play()
         firstCard.classList.add('matched');
         secondCard.classList.add('matched');
         matchedCards += 2;
@@ -228,8 +246,8 @@ function checkForMatch() {
     } else {
         setTimeout(() => {
             failSound.currentTime = 0;
-            if (soundEnabled) failSound.play();
-
+            //if (soundEnabled) failSound.play();
+			if (soundEnabled && gameTypeSelect.value !== 'notes') failSound.play()
             firstCard.classList.remove('flipped');
             secondCard.classList.remove('flipped');
             score = Math.max(0, score - 2);
@@ -250,6 +268,7 @@ function initializeGame() {
 
     let selectedItems = [];
     let isImageType = false;
+	let isSoundType = false;
 
 	if (gameType === 'letters') {
     selectedItems = shuffle([...letters]).slice(0, cardCount / 2);
@@ -263,7 +282,11 @@ function initializeGame() {
 	} else if (gameType === 'animals') {
 	selectedItems = shuffle([...animals]).slice(0, cardCount / 2);
 	isImageType = true;
+	}else if (gameType === 'notes') {
+	selectedItems = shuffle([...notes]).slice(0, cardCount / 2);
+	isSoundType = true;
 	}
+
 
 
     cards = shuffle([...selectedItems, ...selectedItems]);
