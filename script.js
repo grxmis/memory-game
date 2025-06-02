@@ -124,7 +124,7 @@ let numbers = [...Array(20).keys()].map(n => (n + 1).toString());
 let colors = ['#FF5733','#33FF57','#3357FF','#F033FF','#FF33A1','#33FFFF','#FFDB33','#FF5733','#A1FF33','#5733FF','#33FF84','#FF9333','#9F33FF','#FF33C7','#FFFF33','#33A1FF','#FF33F1','#F133FF','#F1FF33','#FF33B5'];
 let images = ['images/fr1.png', 'images/fr2.png', 'images/fr3.png', 'images/fr4.png', 'images/fr5.png', 'images/fr6.png', 'images/fr7.png', 'images/fr8.png', 'images/fr9.png', 'images/fr10.png','images/fr11.png','images/fr12.png'];
 let animals = ['animals/animals1.png','animals/animals2.png','animals/animals3.png','animals/animals4.png','animals/animals5.png','animals/animals6.png','animals/animals7.png','animals/animals8.png','animals/animals9.png','animals/animals10.png','animals/animals11.png','animals/animals12.png','animals/animals13.png','animals/animals14.png'];
-let notes = ["sounds/s1.mp3","sounds/s2.mp3","sounds/s3.mp3","sounds/s4.mp3","sounds/s5.mp3","sounds/s6.mp3","sounds/s7.mp3","sounds/s8.mp3","sounds/s9.mp3","sounds/s10.mp3"];
+let notes = ["sounds/s1.mp3","sounds/s2.mp3","sounds/s3.mp3","sounds/s4.mp3","sounds/s5.mp3","sounds/s6.mp3","sounds/s7.mp3","sounds/s8.mp3"];
 
 let cards = [];
 let flippedCards = [];
